@@ -1,42 +1,59 @@
 package Classes;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by yodi on 9-11-2015.
  */
 public class Bubble {
-    private int xPos;
-    private int yPos;
-    private double xSpeed;
-    private double ySpeed;
+    private Image image;
+    private int x;
+    private int y;
+    private double xSpeed = 0;
+    private double ySpeed = 0;
     private int color;
-    private BufferedImage image;
-    private Bubble[] linktedBubbles;
 
-
-    public Bubble(int xPos,int yPos)
+    public Bubble(int x, int y ,int color)
     {
-        this.xPos =  xPos;
-        this.yPos = yPos;
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        loadImage();
+    }
 
-    };
+    private void loadImage()
+    {
+        String path =  "sprite/bubble_" + color + ".png";
+        ImageIcon ii = new ImageIcon(path);
+        image = ii.getImage();
+    }
 
-    public void Shoot(int speed,int arc)
+    public void Draw(Graphics g)
+    {
+        Move();
+        g.drawImage(image,x,y, null);
+    }
+
+    public void shoot(double arc,int speed)
     {
         ySpeed = Math.sin(arc) * speed;
         xSpeed = Math.cos(arc) * speed;
-        image =  ImageIO.read(new File("img/bubbleBlue.png"));
     }
 
-    public void Draw()
+    private void Move()
     {
-
-    }
-    public void  bounce(){
-        xSpeed  =  xSpeed * -1;
+        x =  x  + (int) xSpeed;
+        y = y + (int) ySpeed;
     }
 
+    public int GetX()
+    {
+        return x;
+    }
+    public int GetY()
+    {
+        return y;
+    }
 }
